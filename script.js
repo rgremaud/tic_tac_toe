@@ -22,13 +22,12 @@ function Gameboard() {
         alert("That spot is taken!");
     }};
 
- /*
- const printBoard = function() {
-    console.log(gameBoard[0] + gameBoard[1] + gameBoard[2]);
-    console.log(gameBoard[3] + gameBoard[4] + gameBoard[5]);
-    console.log(gameBoard[6] + gameBoard[7] + gameBoard[8]);
- }
- }
-*/
-    return { playToken }
+ 
+    const printBoard = function() {
+        console.log(board[0] + board[1] + board[2]);
+        console.log(board[3] + board[4] + board[5]);
+        console.log(board[6] + board[7] + board[8]);
+    };
+
+    return { playToken, printBoard };
 };
