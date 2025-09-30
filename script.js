@@ -69,27 +69,34 @@ function GameInit(playerOne, playerTwo) {
             let y = cellValue(combo[1]);
             let z = cellValue(combo[2]);
             let arrayToCheck = [x, y, z];
-            
+
             if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "X" || arrayToCheck[0] === "O")) {
                 winCondition = true;
-                console.log("We have a winner!")
             }
             else {
-                console.log("No winner yet")
-            } 
-        }); 
+            }
+        });
     };
 
 
     const playRound = function () {
-        while (!winCondition) {
-            console.log(`It is ${getActivePlayer().name}'s turn.`)
-            boardLocation = prompt("Please enter the number you'd like to play your token.  Number 0-8")
-            board.playToken(parseInt(boardLocation), getActivePlayer().token);
-            winCheck();
-            switchPlayer();
-            board.printBoard();
+        // need to display a draw msg of some sort, doesn't work
+        for (let i = 0; i <= 10; i++) {
+            while (!winCondition) {
+                if (i === 10 && !winCondition) {
+                    console.log("Its a draw!")
+                }
+                else {
+                    console.log(`It is ${getActivePlayer().name}'s turn.`)
+                    boardLocation = prompt("Please enter the number you'd like to play your token.  Number 0-8")
+                    board.playToken(parseInt(boardLocation), getActivePlayer().token);
+                    winCheck();
+                    switchPlayer();
+                    board.printBoard();
+                }
+            }
         }
+
     }
 
     return {
