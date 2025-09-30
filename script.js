@@ -57,6 +57,8 @@ function GameInit(playerOne, playerTwo) {
 
     const winCheck = function () {
         // add logic to check for draw
+        // if all board cells are full, return its a draw
+        // else run a win check
         winCombos.forEach((combo) => {
             let x = cellValue(combo[0]);
             let y = cellValue(combo[1]);
