@@ -56,14 +56,6 @@ function GameInit(playerOne, playerTwo) {
     }
 
     const winCheck = function () {
-        /* add logic to check for draw
-        // if all board cells are full, return its a draw
-        // else run a win check
-        for item in arr:
-        if len(item) == 0:
-            return False
-        return True
-        */
         winCombos.forEach((combo) => {
             let x = cellValue(combo[0]);
             let y = cellValue(combo[1]);
@@ -80,23 +72,19 @@ function GameInit(playerOne, playerTwo) {
 
 
     const playRound = function () {
-        // need to display a draw msg of some sort, doesn't work
         for (let i = 0; i <= 10; i++) {
             while (!winCondition) {
-                if (i === 10 && !winCondition) {
-                    console.log("Its a draw!")
-                }
-                else {
-                    console.log(`It is ${getActivePlayer().name}'s turn.`)
-                    boardLocation = prompt("Please enter the number you'd like to play your token.  Number 0-8")
-                    board.playToken(parseInt(boardLocation), getActivePlayer().token);
-                    winCheck();
-                    switchPlayer();
-                    board.printBoard();
-                }
+                console.log(`It is ${getActivePlayer().name}'s turn.`)
+                boardLocation = prompt("Please enter the number you'd like to play your token.  Number 0-8")
+                board.playToken(parseInt(boardLocation), getActivePlayer().token);
+                winCheck();
+                switchPlayer();
+                board.printBoard();
+            }
+            if (i === 9) {
+                return alert("Its a draw!");
             }
         }
-
     }
 
     return {
