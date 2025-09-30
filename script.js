@@ -1,16 +1,3 @@
-/*
-
-Required components:
-Gameboard
-    - Array with 9 spots
-    - Exposed elements getboard, playtoken, print board
-Game controller 
-    - Players defined here
-    - Game logic to check for winner
-    - Exposed elements play round, active player
-*/
-
-
 function Gameboard() {
     const board = ["", "", "", "", "", "", "", "", ""];
 
@@ -29,11 +16,15 @@ function Gameboard() {
         console.log(board[6] + "|" + board[7] + "|" + board[8]);
     };
 
-    return { playToken, printBoard };
+    const printCell = function (cellNumber) {
+        return board[cellNumber]
+    }
+
+    return { playToken, printBoard, printCell };
 };
 
 
-function GameGenie(playerOne, playerTwo) {
+function GameInit(playerOne, playerTwo) {
     const board = Gameboard()
 
     const players = [
@@ -60,29 +51,36 @@ function GameGenie(playerOne, playerTwo) {
 
     const allEqual = arr => arr.every(v => v === arr[0]);
 
+    const cellValue = function (cellNumber) {
+        return board.printCell(cellNumber)
+    }
+
     const winCheck = function () {
-        /*
+        // add logic to check for draw
         winCombos.forEach((combo) => {
-            console.log(`Current values are `)
-            // need to update this so it is taking the combo
-            arrayToCheck = [board[combo[0]], board[combo[1]], board[combo[2]]]
-            console.log(`Array to check is ${arrayToCheck}`);
-            if (allEqual(arrayToCheck) === "true" && (arrayToCheck[0] === "X" || arrayToCheck[0] === "O")) {
+            let x = cellValue(combo[0]);
+            let y = cellValue(combo[1]);
+            let z = cellValue(combo[2]);
+            let arrayToCheck = [x, y, z];
+            
+            if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "X" || arrayToCheck[0] === "O")) {
                 winCondition = true;
+                console.log("We have a winner!")
             }
             else {
                 console.log("No winner yet")
             } 
-        }); */
+        }); 
     };
 
 
     const playRound = function () {
         while (!winCondition) {
             console.log(`It is ${getActivePlayer().name}'s turn.`)
-            boardLocation = prompt("Please enter the number you'd like to play your token.  Number 0-9")
+            boardLocation = prompt("Please enter the number you'd like to play your token.  Number 0-8")
             board.playToken(parseInt(boardLocation), getActivePlayer().token);
             winCheck();
+            switchPlayer();
             board.printBoard();
         }
     }
@@ -90,7 +88,6 @@ function GameGenie(playerOne, playerTwo) {
     return {
         playRound,
         getActivePlayer,
-        winCheck,
-        getBoard: board.getBoard
+        //getBoard: board.getBoard
     }
 }
