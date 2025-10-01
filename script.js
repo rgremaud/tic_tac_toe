@@ -1,6 +1,8 @@
 function Gameboard() {
     const board = ["", "", "", "", "", "", "", "", ""];
 
+    const getBoard = () => board;
+
     const playToken = function (board_spot, token) {
         let index = board_spot
         if (board[index].length == 0) {
@@ -20,7 +22,7 @@ function Gameboard() {
         return board[cellNumber]
     }
 
-    return { playToken, printBoard, printCell };
+    return { getBoard, playToken, printBoard, printCell };
 };
 
 
@@ -96,33 +98,34 @@ function GameInit(playerOne, playerTwo) {
 
 function ScreenController() {
     const game = GameInit("Player X", "Player O");
-    // needs to render the current player
-    const currentPlayer = function () {
-       const elementsToUpdate = document.getElementsByClassName("activePlayer");
-        elementsToUpdate.textContent = `Player X turn`;
-        
-        let container = elementsToUpdate;
-        let content = container.innerHTML;
-        container.innerHTML= content; 
+    const playerTurnId = document.getElementById("activePlayer")
+    const fullBoardId = document.getElementById("fullBoard")
+
+    const updateScreen = function () {
+        // clear the board
+        fullBoardId.textContent = "";
+
+        // get latest board and player turn
+        const board = game.getBoard;
+        console.log(board)
+        const activePlayer = game.getActivePlayer();
+
+        // Display player's turn
+        playerTurnId.textContent = `${activePlayer.name}'s turn!`
+
+        // Render board squares
+        // should display the data in each square across the board
+
+
     }
 
-    /* 
-    function updateClassText(className, newText) {
-        const elements = document.querySelectorAll(`.${className}`); // Select all elements with the given class
+    // add a click events for each item
 
-        elements.forEach(element => {
-        element.textContent = newText; // Update the text content of each element
-        });
-    }
-    */
-    // 
-    // needs to refresh HTML board after each play
-    // return a render function to be used with GameInit
-    return {
-        currentPlayer
-    }
+    updateScreen();
+
 }
 
+ScreenController();
 
 /*
 Example screen controller from building a house article
