@@ -95,12 +95,34 @@ function GameInit(playerOne, playerTwo) {
 }
 
 function ScreenController() {
-    const game = GameInit();
+    const game = GameInit("Player X", "Player O");
     // needs to render the current player
+    const currentPlayer = function () {
+       const elementsToUpdate = document.getElementsByClassName("activePlayer");
+        elementsToUpdate.textContent = `Player X turn`;
+        
+        let container = elementsToUpdate;
+        let content = container.innerHTML;
+        container.innerHTML= content; 
+    }
+
+    /* 
+    function updateClassText(className, newText) {
+        const elements = document.querySelectorAll(`.${className}`); // Select all elements with the given class
+
+        elements.forEach(element => {
+        element.textContent = newText; // Update the text content of each element
+        });
+    }
+    */
     // 
     // needs to refresh HTML board after each play
     // return a render function to be used with GameInit
+    return {
+        currentPlayer
+    }
 }
+
 
 /*
 Example screen controller from building a house article
