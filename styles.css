@@ -17,7 +17,7 @@ body {
     justify-content: center;
 }
 
-.gameboard {
+#gameBoard {
     background-color: black;
     margin-top: 5vh;
     display: grid;

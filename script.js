@@ -98,83 +98,35 @@ function GameInit(playerOne, playerTwo) {
 
 function ScreenController() {
     const game = GameInit("Player X", "Player O");
-    const playerTurnId = document.getElementById("activePlayer")
-    const fullBoardId = document.getElementById("fullBoard")
+    const playerTurn = document.querySelector("#activePlayer")
+    const gameBoard = document.querySelector("#gameBoard")
 
     const updateScreen = function () {
         // clear the board
-        fullBoardId.textContent = "";
+        gameBoard.textContent = "";
 
         // get latest board and player turn
-        const board = game.getBoard;
-        console.log(board)
+        const board = game.getBoard();
         const activePlayer = game.getActivePlayer();
 
         // Display player's turn
-        playerTurnId.textContent = `${activePlayer.name}'s turn!`
+        playerTurn.textContent = `${activePlayer.name}'s turn!`;
 
-        // Render board squares
-        // should display the data in each square across the board
-
-
+        // Build divs for board
+       for (let i = 0; i <= 8; i++) {
+            const newDiv = document.createElement('div');
+            newDiv.id = `${i}`;
+            newDiv.className = "square";
+            newDiv.textContent = `${board[i]}`;
+            gameBoard.appendChild(newDiv);
+       }
     }
-
-    // add a click events for each item
-
-    updateScreen();
-
-}
-
-ScreenController();
-
-/*
-Example screen controller from building a house article
-function ScreenController() {
-  const game = GameController();
-  const playerTurnDiv = document.querySelector('.turn');
-  const boardDiv = document.querySelector('.board');
-
-  const updateScreen = () => {
-    // clear the board
-    boardDiv.textContent = "";
-
-    // get the newest version of the board and player turn
-    const board = game.getBoard();
-    const activePlayer = game.getActivePlayer();
-
-    // Display player's turn
-    playerTurnDiv.textContent = `${activePlayer.name}'s turn...`
-
-    // Render board squares
-    board.forEach(row => {
-      row.forEach((cell, index) => {
-        // Anything clickable should be a button!!
-        const cellButton = document.createElement("button");
-        cellButton.classList.add("cell");
-        // Create a data attribute to identify the column
-        // This makes it easier to pass into our `playRound` function 
-        cellButton.dataset.column = index
-        cellButton.textContent = cell.getValue();
-        boardDiv.appendChild(cellButton);
-      })
-    })
-  }
-
-  // Add event listener for the board
-  function clickHandlerBoard(e) {
-    const selectedColumn = e.target.dataset.column;
-    // Make sure I've clicked a column and not the gaps in between
-    if (!selectedColumn) return;
     
-    game.playRound(selectedColumn);
+    // add a click events for each item
+    
+
     updateScreen();
-  }
-  boardDiv.addEventListener("click", clickHandlerBoard);
 
-  // Initial render
-  updateScreen();
-
-  // We don't need to return anything from this module because everything is encapsulated inside this screen controller.
 }
+
 ScreenController();
-*/
