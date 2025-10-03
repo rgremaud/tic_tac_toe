@@ -78,10 +78,10 @@ function GameInit(playerOne, playerTwo) {
         for (let i = 0; i <= 10; i++) {
             while (!winCondition) {
                 // Look at updating the logic here for the javascript to handle the click events
-                /* removing the console functions
+                // removing the console functions
                 console.log(`It is ${getActivePlayer().name}'s turn.`)
                 boardLocation = prompt("Please enter the number you'd like to play your token.  Number 0-8")
-                */
+                
                // update board.playToken to accept the click event version
                 board.playToken(parseInt(boardLocation), getActivePlayer().token);
                 winCheck();
@@ -105,6 +105,7 @@ function ScreenController() {
     const game = GameInit("Player X", "Player O");
     const playerTurn = document.querySelector("#activePlayer")
     const gameBoard = document.querySelector("#gameBoard")
+
 
     const updateScreen = function () {
         // clear the board
@@ -132,7 +133,7 @@ function ScreenController() {
 
             square.addEventListener('click', () => { 
                 square.textContent = `${activePlayer.token}`;
-                // needs to include the playtoken call here
+                // need to update this so it passes logic to the GameController
                 boardLocation = parseInt(square.id);
                 console.log(boardLocation);
             });
@@ -147,23 +148,6 @@ function ScreenController() {
         }
 
     }
-    
-    // add a click events for each item
-    // click event should add event listener that recognizes the click, identifies the player
-    // plays the token at the location
-    // calls the updateScreen
-    /*
-    const squareClickEvent = function () {
-        for (let i =0; i <= 8; i++) {
-            console.log("Hi");
-            const square = document.getElementById(`${i}`);
-
-            square.addEventListener('click', function() {
-                myElement.style.backgroundColor = 'blue'; 
-            });
-        }
-    }
-    */
 
     updateScreen();
 
