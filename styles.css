@@ -30,4 +30,10 @@ body {
 
 .square {
     background-color: white;
+    font-size: 6rem;
+    text-align: center;
+}
+
+.hover {
+    background-color: lightblue;
 }

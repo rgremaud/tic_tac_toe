@@ -66,6 +66,7 @@ function GameInit(playerOne, playerTwo) {
 
             if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "X" || arrayToCheck[0] === "O")) {
                 winCondition = true;
+                alert("We have a winner!")
             }
             else {
             }
@@ -76,8 +77,12 @@ function GameInit(playerOne, playerTwo) {
     const playRound = function () {
         for (let i = 0; i <= 10; i++) {
             while (!winCondition) {
+                // Look at updating the logic here for the javascript to handle the click events
+                /* removing the console functions
                 console.log(`It is ${getActivePlayer().name}'s turn.`)
                 boardLocation = prompt("Please enter the number you'd like to play your token.  Number 0-8")
+                */
+               // update board.playToken to accept the click event version
                 board.playToken(parseInt(boardLocation), getActivePlayer().token);
                 winCheck();
                 switchPlayer();
@@ -120,10 +125,45 @@ function ScreenController() {
             newDiv.textContent = `${board[i]}`;
             gameBoard.appendChild(newDiv);
        }
+
+       // Add click events to board squares
+       for (let i =0; i <= 8; i++) {
+            const square = document.getElementById(`${i}`);
+
+            square.addEventListener('click', () => { 
+                square.textContent = `${activePlayer.token}`;
+                // needs to include the playtoken call here
+                boardLocation = parseInt(square.id);
+                console.log(boardLocation);
+            });
+
+            square.addEventListener('mouseenter', () => {
+                square.classList.add('hover');
+            });
+
+            square.addEventListener('mouseleave', () => {
+                square.classList.remove('hover');
+            });
+        }
+
     }
     
     // add a click events for each item
-    
+    // click event should add event listener that recognizes the click, identifies the player
+    // plays the token at the location
+    // calls the updateScreen
+    /*
+    const squareClickEvent = function () {
+        for (let i =0; i <= 8; i++) {
+            console.log("Hi");
+            const square = document.getElementById(`${i}`);
+
+            square.addEventListener('click', function() {
+                myElement.style.backgroundColor = 'blue'; 
+            });
+        }
+    }
+    */
 
     updateScreen();
 
