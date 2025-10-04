@@ -22,20 +22,26 @@ function Gameboard() {
         return board[cellNumber]
     }
 
-    return { getBoard, playToken, printBoard, printCell };
+    const resetBoard = function() {
+        for (let i = 0; i <= 8; i++){
+            board[i] = "";
+        }
+    }
+
+    return { getBoard, playToken, printBoard, printCell, resetBoard };
 };
 
 
-function GameInit(playerOne, playerTwo) {
+function GameInit() {
     const board = Gameboard()
 
     const players = [
         {
-            name: playerOne,
+            name: "Player X",
             token: "X"
         },
         {
-            name: playerTwo,
+            name: "Player O",
             token: "O",
         }
     ];
@@ -73,12 +79,12 @@ function GameInit(playerOne, playerTwo) {
         });
     };
 
-
+    /*
     const playRound = function () {
         for (let i = 0; i <= 10; i++) {
             while (!winCondition) {
                // update board.playToken to accept the click event version
-                board.playTokenScreen(parseInt(boardLocation), getActivePlayer().token);
+                board.playRoundScreen(parseInt(boardLocation), getActivePlayer().token);
                 winCheck();
                 switchPlayer();
                 board.printBoard();
@@ -88,24 +94,30 @@ function GameInit(playerOne, playerTwo) {
             }
         }
     }
+        */
 
-    const playTokenScreen = function (location) {
-        board.playToken(location, getActivePlayer().token);
-        winCheck();
-        switchPlayer();
-        board.printBoard();
+    const playRoundScreen = function (location) {
+            board.playToken(location, getActivePlayer().token);
+            winCheck();
+            switchPlayer();
+            board.printBoard();
+    };
+
+    const resetGame = function () {
+        board.resetBoard();
     }
 
     return {
-        playRound,
-        playTokenScreen,
+        //playRound,
+        playRoundScreen,
         getActivePlayer,
+        resetGame,
         getBoard: board.getBoard
     }
 }
 
 function ScreenController() {
-    const game = GameInit("Player X", "Player O");
+    const game = GameInit();
     const playerTurn = document.querySelector("#activePlayer")
     const gameBoard = document.querySelector("#gameBoard")
 
@@ -121,25 +133,29 @@ function ScreenController() {
         // Display player's turn
         playerTurn.textContent = `${activePlayer.name}'s turn!`;
 
-        // Build divs for board
-       for (let i = 0; i <= 8; i++) {
+
+       // Build square divs and add click events to board squares
+       addBoardStyles(board);
+
+    }
+
+    const addBoardStyles = function (board) {
+
+        // build square divs and add styles
+        for (let i = 0; i <= 8; i++) {
             const newDiv = document.createElement('div');
             newDiv.id = `${i}`;
             newDiv.className = "square";
             newDiv.textContent = `${board[i]}`;
             gameBoard.appendChild(newDiv);
        }
-
-       // Add click events to board squares
-       resetButtonClick();
-
-       for (let i =0; i <= 8; i++) {
+        for (let i =0; i <= 8; i++) {
             const square = document.getElementById(`${i}`);
 
             square.addEventListener('click', () => { 
                 square.textContent = `${activePlayer.token}`;
                 boardLocation = parseInt(square.id);
-                game.playTokenScreen(boardLocation);
+                game.playRoundScreen(boardLocation);
                 updateScreen();
             });
 
@@ -152,11 +168,25 @@ function ScreenController() {
             });
         }
 
+        // reset button styles
+        const resetButton = document.getElementById('resetButton');
+        resetButton.textContent = "Reset";
+
+        resetButton.addEventListener('click', () => {
+            resetButtonClick();
+        })
     }
 
     const resetButtonClick = function () { 
-        const resetButton = document.getElementById('resetButton');
-        resetButton.textContent = "Reset";
+        // add click events for reset button
+        // reset the activePlayer display and game board
+        console.log("Reset was hit");
+        const playerTurn = document.getElementById("activePlayer");
+        const gameBoard = document.getElementById("gameBoard")
+        playerTurn.textContent = ""
+        gameBoard.textContent = ""
+        game.resetGame();
+        updateScreen();
     }
 
     updateScreen();
