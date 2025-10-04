@@ -77,13 +77,8 @@ function GameInit(playerOne, playerTwo) {
     const playRound = function () {
         for (let i = 0; i <= 10; i++) {
             while (!winCondition) {
-                // Look at updating the logic here for the javascript to handle the click events
-                // removing the console functions
-                console.log(`It is ${getActivePlayer().name}'s turn.`)
-                boardLocation = prompt("Please enter the number you'd like to play your token.  Number 0-8")
-                
                // update board.playToken to accept the click event version
-                board.playToken(parseInt(boardLocation), getActivePlayer().token);
+                board.playTokenScreen(parseInt(boardLocation), getActivePlayer().token);
                 winCheck();
                 switchPlayer();
                 board.printBoard();
@@ -94,8 +89,16 @@ function GameInit(playerOne, playerTwo) {
         }
     }
 
+    const playTokenScreen = function (location) {
+        board.playToken(location, getActivePlayer().token);
+        winCheck();
+        switchPlayer();
+        board.printBoard();
+    }
+
     return {
         playRound,
+        playTokenScreen,
         getActivePlayer,
         getBoard: board.getBoard
     }
@@ -128,14 +131,16 @@ function ScreenController() {
        }
 
        // Add click events to board squares
+       resetButtonClick();
+
        for (let i =0; i <= 8; i++) {
             const square = document.getElementById(`${i}`);
 
             square.addEventListener('click', () => { 
                 square.textContent = `${activePlayer.token}`;
-                // need to update this so it passes logic to the GameController
                 boardLocation = parseInt(square.id);
-                console.log(boardLocation);
+                game.playTokenScreen(boardLocation);
+                updateScreen();
             });
 
             square.addEventListener('mouseenter', () => {
@@ -147,6 +152,11 @@ function ScreenController() {
             });
         }
 
+    }
+
+    const resetButtonClick = function () { 
+        const resetButton = document.getElementById('resetButton');
+        resetButton.textContent = "Reset";
     }
 
     updateScreen();
