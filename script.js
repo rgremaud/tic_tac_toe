@@ -11,12 +11,7 @@ function Gameboard() {
             alert("That spot is taken!");
         }
     };
-
-    const printBoard = function () {
-        console.log(board[0] + "|" + board[1] + "|" + board[2]);
-        console.log(board[3] + "|" + board[4] + "|" + board[5]);
-        console.log(board[6] + "|" + board[7] + "|" + board[8]);
-    };
+    
 
     const printCell = function (cellNumber) {
         return board[cellNumber]
@@ -28,7 +23,11 @@ function Gameboard() {
         }
     }
 
-    return { getBoard, playToken, printBoard, printCell, resetBoard };
+    return { 
+            getBoard, 
+            playToken, 
+            printCell, 
+            resetBoard };
 };
 
 
@@ -73,34 +72,16 @@ function GameInit() {
             if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "X" || arrayToCheck[0] === "O")) {
                 winCondition = true;
                 alert("We have a winner!")
+                return true;
             }
-            else {
-            }
+            return false;
         });
     };
 
-    /*
-    const playRound = function () {
-        for (let i = 0; i <= 10; i++) {
-            while (!winCondition) {
-               // update board.playToken to accept the click event version
-                board.playRoundScreen(parseInt(boardLocation), getActivePlayer().token);
-                winCheck();
-                switchPlayer();
-                board.printBoard();
-            }
-            if (i === 9) {
-                return alert("Its a draw!");
-            }
-        }
-    }
-        */
-
-    const playRoundScreen = function (location) {
+    const playRound = function (location) {
             board.playToken(location, getActivePlayer().token);
             winCheck();
             switchPlayer();
-            board.printBoard();
     };
 
     const resetGame = function () {
@@ -108,10 +89,10 @@ function GameInit() {
     }
 
     return {
-        //playRound,
-        playRoundScreen,
+        playRound,
         getActivePlayer,
         resetGame,
+        winCheck,
         getBoard: board.getBoard
     }
 }
@@ -137,6 +118,15 @@ function ScreenController() {
        // Build square divs and add click events to board squares
        addBoardStyles(board);
 
+       // update win text
+       let winCheck = game.winCheck();
+       console.log(winCheck);
+       if (winCheck === true) {
+        console.log("This trigerred")
+        playerTurn.textContent = `${activePlayer.name} has won!`
+        playerTurn.style.backgroundColor = "purple";
+       }
+
     }
 
     const addBoardStyles = function (board) {
@@ -155,7 +145,7 @@ function ScreenController() {
             square.addEventListener('click', () => { 
                 square.textContent = `${activePlayer.token}`;
                 boardLocation = parseInt(square.id);
-                game.playRoundScreen(boardLocation);
+                game.playRound(boardLocation);
                 updateScreen();
             });
 
@@ -178,9 +168,6 @@ function ScreenController() {
     }
 
     const resetButtonClick = function () { 
-        // add click events for reset button
-        // reset the activePlayer display and game board
-        console.log("Reset was hit");
         const playerTurn = document.getElementById("activePlayer");
         const gameBoard = document.getElementById("gameBoard")
         playerTurn.textContent = ""
