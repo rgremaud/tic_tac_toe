@@ -7,7 +7,7 @@ body {
 }
 
 .header {
-    font-size: 2rem;
+    font-size: 3rem;
     text-align: center;
 }
 
@@ -26,6 +26,11 @@ body {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     gap: 1vh;
+}
+
+#activePlayer {
+    font-size: 2rem;
+    text-align: center;
 }
 
 .square {

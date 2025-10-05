@@ -4,7 +4,7 @@ function Gameboard() {
     const getBoard = () => board;
 
     const playToken = function (board_spot, token) {
-        let index = board_spot
+        let index = board_spot;
         if (board[index].length == 0) {
             board[index] = token;
         } else if (board[index].length > 0) {
@@ -12,16 +12,15 @@ function Gameboard() {
         }
     };
     
-
     const printCell = function (cellNumber) {
-        return board[cellNumber]
-    }
+        return board[cellNumber];
+    };
 
     const resetBoard = function() {
         for (let i = 0; i <= 8; i++){
             board[i] = "";
         }
-    }
+    };
 
     return { 
             getBoard, 
@@ -32,7 +31,7 @@ function Gameboard() {
 
 
 function GameInit() {
-    const board = Gameboard()
+    const board = Gameboard();
 
     const players = [
         {
@@ -47,7 +46,7 @@ function GameInit() {
 
     const winCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 
-    let activePlayer = players[0]
+    let activePlayer = players[0];
     let winCondition = false;
 
     const switchPlayer = () => {
@@ -59,10 +58,11 @@ function GameInit() {
     const allEqual = arr => arr.every(v => v === arr[0]);
 
     const cellValue = function (cellNumber) {
-        return board.printCell(cellNumber)
+        return board.printCell(cellNumber);
     }
 
     const winCheck = function () {
+        let winData = [winCondition, activePlayer.token];
         winCombos.forEach((combo) => {
             let x = cellValue(combo[0]);
             let y = cellValue(combo[1]);
@@ -71,11 +71,9 @@ function GameInit() {
 
             if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "X" || arrayToCheck[0] === "O")) {
                 winCondition = true;
-                alert("We have a winner!")
-                return true;
             }
-            return false;
         });
+        return winCondition;
     };
 
     const playRound = function (location) {
@@ -99,39 +97,32 @@ function GameInit() {
 
 function ScreenController() {
     const game = GameInit();
-    const playerTurn = document.querySelector("#activePlayer")
-    const gameBoard = document.querySelector("#gameBoard")
-
+    const playerTurn = document.querySelector("#activePlayer");
+    const gameBoard = document.querySelector("#gameBoard");
 
     const updateScreen = function () {
-        // clear the board
         gameBoard.textContent = "";
 
-        // get latest board and player turn
         const board = game.getBoard();
         const activePlayer = game.getActivePlayer();
 
-        // Display player's turn
         playerTurn.textContent = `${activePlayer.name}'s turn!`;
 
+        printBoard(board);
 
-       // Build square divs and add click events to board squares
-       addBoardStyles(board);
-
-       // update win text
        let winCheck = game.winCheck();
-       console.log(winCheck);
-       if (winCheck === true) {
-        console.log("This trigerred")
-        playerTurn.textContent = `${activePlayer.name} has won!`
-        playerTurn.style.backgroundColor = "purple";
-       }
+        if (winCheck === true) {
+            if (activePlayer.token === "X") {
+                playerTurn.textContent = `Player O has won!`;
+            } else {
+                playerTurn.textContent = `Player X has won!`;
+            }
+            playerTurn.style.color = "green";
+        };
 
     }
 
-    const addBoardStyles = function (board) {
-
-        // build square divs and add styles
+    const printBoard = function (board) {
         for (let i = 0; i <= 8; i++) {
             const newDiv = document.createElement('div');
             newDiv.id = `${i}`;
@@ -163,15 +154,17 @@ function ScreenController() {
         resetButton.textContent = "Reset";
 
         resetButton.addEventListener('click', () => {
-            resetButtonClick();
+            resetClickEvent();
         })
     }
 
-    const resetButtonClick = function () { 
+    const resetClickEvent = function () { 
         const playerTurn = document.getElementById("activePlayer");
-        const gameBoard = document.getElementById("gameBoard")
-        playerTurn.textContent = ""
-        gameBoard.textContent = ""
+        const gameBoard = document.getElementById("gameBoard");
+        const activePlayer = document.getElementById("activePlayer");
+        playerTurn.textContent = "";
+        gameBoard.textContent = "";
+        activePlayer.textContent = "Make your move!"; // doesn't work
         game.resetGame();
         updateScreen();
     }
