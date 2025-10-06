@@ -75,7 +75,8 @@ function GameInit() {
         });
 
         if(allItemsLengthOne(board.getBoard()) === true) {
-            console.log("Its a draw!")
+            winCondition = "draw";
+            return winCondition;
         }
 
         return winCondition;
@@ -142,6 +143,8 @@ function ScreenController() {
 
                 square.addEventListener('click', () => {
                 });}
+        } else if (winCheck === "draw") {
+            playerTurn.textContent = `Its a draw!`;
         };
 
     }
