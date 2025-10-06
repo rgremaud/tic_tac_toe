@@ -1,4 +1,3 @@
-// Gameboard functin
 function Gameboard() {
     const board = ["", "", "", "", "", "", "", "", ""];
 
@@ -12,25 +11,26 @@ function Gameboard() {
             alert("That spot is taken!");
         }
     };
-    
+
     const printCell = function (cellNumber) {
         return board[cellNumber];
     };
 
-    const resetBoard = function() {
-        for (let i = 0; i <= 8; i++){
+    const resetBoard = function () {
+        for (let i = 0; i <= 8; i++) {
             board[i] = "";
         }
     };
 
-    return { 
-            getBoard, 
-            playToken, 
-            printCell, 
-            resetBoard };
+    return {
+        getBoard,
+        playToken,
+        printCell,
+        resetBoard
+    };
 };
 
-// Game initialize
+
 function GameInit() {
     const board = Gameboard();
 
@@ -74,7 +74,7 @@ function GameInit() {
             }
         });
 
-        if(allItemsLengthOne(board.getBoard()) === true) {
+        if (allItemsLengthOne(board.getBoard()) === true && winCondition === false) {
             winCondition = "draw";
             return winCondition;
         }
@@ -82,7 +82,11 @@ function GameInit() {
         return winCondition;
     };
 
-    const allItemsLengthOne = function (arr) { 
+    const winReset = function () {
+        winCondition = false;
+    }
+
+    const allItemsLengthOne = function (arr) {
         if (arr.length === 0) {
             return true;
         }
@@ -93,9 +97,9 @@ function GameInit() {
     }
 
     const playRound = function (location) {
-            board.playToken(location, getActivePlayer().token);
-            winCheck();
-            switchPlayer();
+        board.playToken(location, getActivePlayer().token);
+        winCheck();
+        switchPlayer();
     };
 
     const resetGame = function () {
@@ -107,11 +111,12 @@ function GameInit() {
         getActivePlayer,
         resetGame,
         winCheck,
+        winReset, // use thise to try and clear win text on screen
         getBoard: board.getBoard
     }
 }
 
-// Screen controller
+
 function ScreenController() {
     const game = GameInit();
     const playerTurn = document.querySelector("#activePlayer");
@@ -129,7 +134,7 @@ function ScreenController() {
 
         addColor();
 
-       let winCheck = game.winCheck();
+        let winCheck = game.winCheck();
         if (winCheck === true) {
             if (activePlayer.token === "X") {
                 playerTurn.textContent = `Player O has won!`;
@@ -137,14 +142,11 @@ function ScreenController() {
                 playerTurn.textContent = `Player X has won!`;
             }
             playerTurn.style.color = "#EA906C";
-            // add remove click event here
-             for (let i =0; i <= 8; i++) {
-                const square = document.getElementById(`${i}`);
-
-                square.addEventListener('click', () => {
-                });}
+            game.winReset();
         } else if (winCheck === "draw") {
             playerTurn.textContent = `Its a draw!`;
+            playerTurn.style.color = "#EA906C";
+            game.winReset();
         };
 
     }
@@ -156,11 +158,11 @@ function ScreenController() {
             newDiv.className = "square";
             newDiv.textContent = `${board[i]}`;
             gameBoard.appendChild(newDiv);
-       }
-        for (let i =0; i <= 8; i++) {
+        }
+        for (let i = 0; i <= 8; i++) {
             const square = document.getElementById(`${i}`);
 
-            square.addEventListener('click', () => { 
+            square.addEventListener('click', () => {
                 square.textContent = `${activePlayer.token}`;
                 boardLocation = parseInt(square.id);
                 game.playRound(boardLocation);
@@ -185,20 +187,22 @@ function ScreenController() {
     }
 
     const addColor = function () {
-        for (let i =0; i <= 8; i++) {
+        for (let i = 0; i <= 8; i++) {
             const square = document.getElementById(`${i}`);
 
             if (square.textContent === "X") {
                 square.style.color = "#B31312";
             } else {
                 square.style.color = "#2B2A4C";
-            }};
+            }
+        };
     }
 
-    const resetClickEvent = function () { 
+    const resetClickEvent = function () {
         const playerTurn = document.getElementById("activePlayer");
         const gameBoard = document.getElementById("gameBoard");
         playerTurn.textContent = "";
+        playerTurn.style.color = "#2B2A4C";
         gameBoard.textContent = "";
         game.resetGame();
         updateScreen();
@@ -212,7 +216,6 @@ ScreenController();
 
 /* 
 To do list:
-    Correctly label a draw
-    Reset the player won text
+    Clean up the reset formatting
     Remove button click when win condition trigggers
 */
