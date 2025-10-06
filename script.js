@@ -1,3 +1,4 @@
+// Gameboard functin
 function Gameboard() {
     const board = ["", "", "", "", "", "", "", "", ""];
 
@@ -29,7 +30,7 @@ function Gameboard() {
             resetBoard };
 };
 
-
+// Game initialize
 function GameInit() {
     const board = Gameboard();
 
@@ -62,7 +63,6 @@ function GameInit() {
     }
 
     const winCheck = function () {
-        let winData = [winCondition, activePlayer.token];
         winCombos.forEach((combo) => {
             let x = cellValue(combo[0]);
             let y = cellValue(combo[1]);
@@ -73,8 +73,23 @@ function GameInit() {
                 winCondition = true;
             }
         });
+
+        if(allItemsLengthOne(board.getBoard()) === true) {
+            console.log("Its a draw!")
+        }
+
         return winCondition;
     };
+
+    const allItemsLengthOne = function (arr) { 
+        if (arr.length === 0) {
+            return true;
+        }
+
+        return arr.every(item => {
+            return typeof item === 'string' && item.length === 1;
+        });
+    }
 
     const playRound = function (location) {
             board.playToken(location, getActivePlayer().token);
@@ -95,6 +110,7 @@ function GameInit() {
     }
 }
 
+// Screen controller
 function ScreenController() {
     const game = GameInit();
     const playerTurn = document.querySelector("#activePlayer");
@@ -110,6 +126,8 @@ function ScreenController() {
 
         printBoard(board);
 
+        addColor();
+
        let winCheck = game.winCheck();
         if (winCheck === true) {
             if (activePlayer.token === "X") {
@@ -117,7 +135,13 @@ function ScreenController() {
             } else {
                 playerTurn.textContent = `Player X has won!`;
             }
-            playerTurn.style.color = "green";
+            playerTurn.style.color = "#EA906C";
+            // add remove click event here
+             for (let i =0; i <= 8; i++) {
+                const square = document.getElementById(`${i}`);
+
+                square.addEventListener('click', () => {
+                });}
         };
 
     }
@@ -149,7 +173,6 @@ function ScreenController() {
             });
         }
 
-        // reset button styles
         const resetButton = document.getElementById('resetButton');
         resetButton.textContent = "Reset";
 
@@ -158,13 +181,22 @@ function ScreenController() {
         })
     }
 
+    const addColor = function () {
+        for (let i =0; i <= 8; i++) {
+            const square = document.getElementById(`${i}`);
+
+            if (square.textContent === "X") {
+                square.style.color = "#B31312";
+            } else {
+                square.style.color = "#2B2A4C";
+            }};
+    }
+
     const resetClickEvent = function () { 
         const playerTurn = document.getElementById("activePlayer");
         const gameBoard = document.getElementById("gameBoard");
-        const activePlayer = document.getElementById("activePlayer");
         playerTurn.textContent = "";
         gameBoard.textContent = "";
-        activePlayer.textContent = "Make your move!"; // doesn't work
         game.resetGame();
         updateScreen();
     }
@@ -174,3 +206,10 @@ function ScreenController() {
 }
 
 ScreenController();
+
+/* 
+To do list:
+    Correctly label a draw
+    Reset the player won text
+    Remove button click when win condition trigggers
+*/
