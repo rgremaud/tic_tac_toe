@@ -35,6 +35,23 @@ body {
     text-align: center;
 }
 
+#gameContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#rightPlayer,
+#leftPlayer {
+    font-size: 2rem;
+}
+
+#rightPlayerScore,
+#leftPlayerScore {
+    font-size: 1rem;
+    text-align: center;
+}
+
 .square {
     background-color: #EEE2DE;
     font-size: 6rem;

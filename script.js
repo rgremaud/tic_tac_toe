@@ -50,6 +50,10 @@ function GameInit() {
     let activePlayer = players[0];
     let winCondition = false;
 
+    // experimental win array
+    // first element is winCondition and second element returns token
+    let winArray = [winCondition, ""]
+
     const switchPlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
@@ -69,21 +73,27 @@ function GameInit() {
             let z = cellValue(combo[2]);
             let arrayToCheck = [x, y, z];
 
-            if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "X" || arrayToCheck[0] === "O")) {
-                winCondition = true;
+            if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "X")) {
+                winArray[0] = true;
+                winArray[1] = "X";
+            } else if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "O")) {
+                winArray[0] = true;
+                winArray[1] = "O";
             }
         });
 
         if (allItemsLengthOne(board.getBoard()) === true && winCondition === false) {
-            winCondition = "draw";
-            return winCondition;
+            winArray[0] = "draw";
+            return winArray;
         }
 
-        return winCondition;
+        return winArray;
     };
 
     const winReset = function () {
         winCondition = false;
+        winArray[0] = false;
+        winArray[1] = "";
     }
 
     const allItemsLengthOne = function (arr) {
@@ -134,21 +144,22 @@ function ScreenController() {
 
         addColor();
 
-        let winCheck = game.winCheck();
-        winConfirm(winCheck);
+        let winArray = game.winCheck();
+        winConfirm(winArray);
 
     }
 
-    const winConfirm = function (winCheck) {
-        if (winCheck === true) {
-            if (activePlayer.token === "X") {
-                playerTurn.textContent = `Player O has won!`;
-            } else {
-                playerTurn.textContent = `Player X has won!`;
-            }
+    const winConfirm = function (winArray) {
+        console.log(winArray);
+        if (winArray[0] === true && winArray[1] === "X") {
+            playerTurn.textContent = `Player X has won!`;
             playerTurn.style.color = "#EA906C";
             game.winReset();
-        } else if (winCheck === "draw") {
+        } else if (winArray[0] === true && winArray[1] === "O") {
+            playerTurn.textContent = `Player O has won!`;
+            playerTurn.style.color = "#EA906C";
+            game.winReset();
+        } else if (winArray[0] === "draw") {
             playerTurn.textContent = `Its a draw!`;
             playerTurn.style.color = "#EA906C";
             game.winReset();
@@ -224,6 +235,5 @@ ScreenController();
 
 /* 
 To do list:
-    Allow players to input their name
-    Keep track of score for each
+    Win tracker seems to be fixed
 */
