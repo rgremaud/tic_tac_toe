@@ -111,7 +111,7 @@ function GameInit() {
         getActivePlayer,
         resetGame,
         winCheck,
-        winReset, // use thise to try and clear win text on screen
+        winReset,
         getBoard: board.getBoard
     }
 }
@@ -135,6 +135,11 @@ function ScreenController() {
         addColor();
 
         let winCheck = game.winCheck();
+        winConfirm(winCheck);
+
+    }
+
+    const winConfirm = function (winCheck) {
         if (winCheck === true) {
             if (activePlayer.token === "X") {
                 playerTurn.textContent = `Player O has won!`;
@@ -148,25 +153,28 @@ function ScreenController() {
             playerTurn.style.color = "#EA906C";
             game.winReset();
         };
-
     }
 
     const printBoard = function (board) {
         for (let i = 0; i <= 8; i++) {
-            const newDiv = document.createElement('div');
-            newDiv.id = `${i}`;
-            newDiv.className = "square";
-            newDiv.textContent = `${board[i]}`;
-            gameBoard.appendChild(newDiv);
+            const newSquare = document.createElement('div');
+            newSquare.id = `${i}`;
+            newSquare.className = "square";
+            newSquare.textContent = `${board[i]}`;
+            gameBoard.appendChild(newSquare);
         }
+
         for (let i = 0; i <= 8; i++) {
             const square = document.getElementById(`${i}`);
 
             square.addEventListener('click', () => {
-                square.textContent = `${activePlayer.token}`;
-                boardLocation = parseInt(square.id);
-                game.playRound(boardLocation);
-                updateScreen();
+                if (square.textContent === "") {
+                    square.textContent = `${activePlayer.token}`;
+                    boardLocation = parseInt(square.id);
+                    game.playRound(boardLocation);
+                    updateScreen();
+                } else {
+                }
             });
 
             square.addEventListener('mouseenter', () => {
@@ -216,6 +224,6 @@ ScreenController();
 
 /* 
 To do list:
-    Clean up the reset formatting
-    Remove button click when win condition trigggers
+    Allow players to input their name
+    Keep track of score for each
 */
