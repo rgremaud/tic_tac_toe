@@ -150,20 +150,30 @@ function ScreenController() {
     }
 
     const winConfirm = function (winArray) {
-        console.log(winArray);
         if (winArray[0] === true && winArray[1] === "X") {
             playerTurn.textContent = `Player X has won!`;
             playerTurn.style.color = "#EA906C";
             game.winReset();
+            removeClicks();
         } else if (winArray[0] === true && winArray[1] === "O") {
             playerTurn.textContent = `Player O has won!`;
             playerTurn.style.color = "#EA906C";
             game.winReset();
+            removeClicks();
         } else if (winArray[0] === "draw") {
             playerTurn.textContent = `Its a draw!`;
             playerTurn.style.color = "#EA906C";
             game.winReset();
+            removeClicks();
         };
+    }
+
+    const removeClicks = function () {
+        for (let i = 0; i <= 8; i++) {
+            const square = document.getElementById(`${i}`);
+
+            square.removeEventListener('click', addBoardToken);
+        }
     }
 
     const printBoard = function (board) {
@@ -174,19 +184,11 @@ function ScreenController() {
             newSquare.textContent = `${board[i]}`;
             gameBoard.appendChild(newSquare);
         }
-
+        
         for (let i = 0; i <= 8; i++) {
             const square = document.getElementById(`${i}`);
 
-            square.addEventListener('click', () => {
-                if (square.textContent === "") {
-                    square.textContent = `${activePlayer.token}`;
-                    boardLocation = parseInt(square.id);
-                    game.playRound(boardLocation);
-                    updateScreen();
-                } else {
-                }
-            });
+            square.addEventListener('click', () => addBoardToken(square));
 
             square.addEventListener('mouseenter', () => {
                 square.classList.add('hover');
@@ -203,6 +205,16 @@ function ScreenController() {
         resetButton.addEventListener('click', () => {
             resetClickEvent();
         })
+    }
+
+    const addBoardToken = function (square) {
+        if (square.textContent === "") {
+            square.textContent = `${activePlayer.token}`;
+            boardLocation = parseInt(square.id);
+            game.playRound(boardLocation);
+            updateScreen();
+            } else {
+            }
     }
 
     const addColor = function () {
@@ -235,5 +247,6 @@ ScreenController();
 
 /* 
 To do list:
-    Win tracker seems to be fixed
+    Update player info on game init
+    Remove clicks when game is a draw/win
 */
