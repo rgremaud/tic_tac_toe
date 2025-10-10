@@ -47,6 +47,8 @@ function GameInit(playerOne, playerTwo) {
         }
     ];
 
+    const getPlayerInfo = () => players;
+
     let activePlayer = players[0];
     let winCondition = false;
 
@@ -119,6 +121,7 @@ function GameInit(playerOne, playerTwo) {
     return {
         playRound,
         getActivePlayer,
+        getPlayerInfo,
         resetGame,
         winCheck,
         winReset,
@@ -132,6 +135,7 @@ function ScreenController() {
     const playerTwo = prompt("Please input player two name")
 
     const game = GameInit(playerOne, playerTwo);
+    const players = game.getPlayerInfo();
     const playerTurn = document.querySelector("#activePlayer");
     const gameBoard = document.querySelector("#gameBoard");
 
@@ -220,12 +224,12 @@ function ScreenController() {
             }
     }
 
-    const displayPlayer = function (playerOne, playerTwo) { 
+    const displayPlayer = function (players) { 
         const playerOneDisplay = document.getElementById("leftPlayer");
         const playerTwoDisplay = document.getElementById("rightPlayer");
 
-        playerOneDisplay.textContent = `${playerOne}`;
-        playerTwoDisplay.textContent = `${playerTwo}`;
+        playerOneDisplay.textContent = `${players[0].name}`;
+        playerTwoDisplay.textContent = `${players[1].name}`;
     }
 
     const addColor = function () {
@@ -250,7 +254,7 @@ function ScreenController() {
         updateScreen();
     }
 
-    displayPlayer(playerOne, playerTwo);
+    displayPlayer(players);
     updateScreen();
 
 }
