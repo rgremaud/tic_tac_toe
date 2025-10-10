@@ -50,9 +50,9 @@ function GameInit(playerOne, playerTwo) {
     const getPlayerInfo = () => players;
 
     let activePlayer = players[0];
-    let winCondition = false;
+    // let winCondition = false;
 
-    let winArray = [winCondition, ""]
+    let winArray = [false, ""]
 
     const switchPlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -83,17 +83,18 @@ function GameInit(playerOne, playerTwo) {
             } else if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "O")) {
                 winArray[0] = true;
                 winArray[1] = "O";
+                players[1].score += 1;
                 console.log(`${players[1].name} has a score of ${players[1].score}`);
-            } else if (allItemsLengthOne(board.getBoard()) === true && winCondition === false) {
+            } else if (allItemsLengthOne(board.getBoard()) === true && winArray[0] === false) {
                 winArray[0] = "draw";
-        }
+            }
         });
 
         return winArray;
     };
 
     const winReset = function () {
-        winCondition = false;
+        // winCondition = false;
         winArray[0] = false;
         winArray[1] = "";
     }
@@ -154,6 +155,8 @@ function ScreenController() {
         let winArray = game.winCheck();
         winConfirm(winArray, playerOne, playerTwo);
 
+        refreshScores();
+
     }
 
     const winConfirm = function (winArray, playerOne, playerTwo) {
@@ -191,7 +194,7 @@ function ScreenController() {
             newSquare.textContent = `${board[i]}`;
             gameBoard.appendChild(newSquare);
         }
-        
+
         for (let i = 0; i <= 8; i++) {
             const square = document.getElementById(`${i}`);
 
@@ -220,16 +223,24 @@ function ScreenController() {
             boardLocation = parseInt(square.id);
             game.playRound(boardLocation);
             updateScreen();
-            } else {
-            }
+        } else {
+        }
     }
 
-    const displayPlayer = function (players) { 
+    const displayPlayer = function (players) {
         const playerOneDisplay = document.getElementById("leftPlayer");
         const playerTwoDisplay = document.getElementById("rightPlayer");
 
         playerOneDisplay.textContent = `${players[0].name}`;
         playerTwoDisplay.textContent = `${players[1].name}`;
+    }
+
+    const refreshScores = function (players) {
+        const playerOneScore = document.getElementById("leftPlayerScore");
+        const playerTwoScore = document.getElementById("rightPlayerScore");
+
+        playerOneScore.textContent = `Score: ${players[0].score}`;
+        playerTwoScore.textContent = `Score: ${players[1].score}`;
     }
 
     const addColor = function () {
@@ -265,4 +276,5 @@ ScreenController();
 To do list:
     Update player info on game init
     Remove clicks when game is a draw/win
+    Score broken
 */

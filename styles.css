@@ -32,13 +32,14 @@ body {
 
 #gameHeader {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 25% 50% 25%;
     font-size: 2rem;
     text-align: center;
 }
 
 #activePlayer {
     margin: 0 2rem 0 2rem;
+    display: flex;
 }
 
 #gameContent {
@@ -60,6 +61,11 @@ body {
 #leftPlayerScore {
     font-size: 1rem;
     text-align: center;
+}
+
+#leftPlayerTitle,
+#rightPlayerTitle {
+    display: flex;
 }
 
 .square {
