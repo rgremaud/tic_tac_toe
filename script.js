@@ -31,27 +31,25 @@ function Gameboard() {
 };
 
 
-function GameInit() {
+function GameInit(playerOne, playerTwo) {
     const board = Gameboard();
 
     const players = [
         {
-            name: "Player X",
-            token: "X"
+            name: playerOne,
+            token: "X",
+            score: 0
         },
         {
-            name: "Player O",
+            name: playerTwo,
             token: "O",
+            score: 0
         }
     ];
-
-    const winCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 
     let activePlayer = players[0];
     let winCondition = false;
 
-    // experimental win array
-    // first element is winCondition and second element returns token
     let winArray = [winCondition, ""]
 
     const switchPlayer = () => {
@@ -66,6 +64,8 @@ function GameInit() {
         return board.printCell(cellNumber);
     }
 
+    const winCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+
     const winCheck = function () {
         winCombos.forEach((combo) => {
             let x = cellValue(combo[0]);
@@ -76,16 +76,16 @@ function GameInit() {
             if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "X")) {
                 winArray[0] = true;
                 winArray[1] = "X";
+                players[0].score += 1;
+                console.log(`${players[0].name} has a score of ${players[0].score}`);
             } else if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "O")) {
                 winArray[0] = true;
                 winArray[1] = "O";
-            }
-        });
-
-        if (allItemsLengthOne(board.getBoard()) === true && winCondition === false) {
-            winArray[0] = "draw";
-            return winArray;
+                console.log(`${players[1].name} has a score of ${players[1].score}`);
+            } else if (allItemsLengthOne(board.getBoard()) === true && winCondition === false) {
+                winArray[0] = "draw";
         }
+        });
 
         return winArray;
     };
@@ -108,7 +108,7 @@ function GameInit() {
 
     const playRound = function (location) {
         board.playToken(location, getActivePlayer().token);
-        winCheck();
+        //winCheck();
         switchPlayer();
     };
 
@@ -128,7 +128,10 @@ function GameInit() {
 
 
 function ScreenController() {
-    const game = GameInit();
+    const playerOne = prompt("Please input player one name");
+    const playerTwo = prompt("Please input player two name")
+
+    const game = GameInit(playerOne, playerTwo);
     const playerTurn = document.querySelector("#activePlayer");
     const gameBoard = document.querySelector("#gameBoard");
 
@@ -145,18 +148,18 @@ function ScreenController() {
         addColor();
 
         let winArray = game.winCheck();
-        winConfirm(winArray);
+        winConfirm(winArray, playerOne, playerTwo);
 
     }
 
-    const winConfirm = function (winArray) {
+    const winConfirm = function (winArray, playerOne, playerTwo) {
         if (winArray[0] === true && winArray[1] === "X") {
-            playerTurn.textContent = `Player X has won!`;
+            playerTurn.textContent = `${playerOne} has won!`;
             playerTurn.style.color = "#EA906C";
             game.winReset();
             removeClicks();
         } else if (winArray[0] === true && winArray[1] === "O") {
-            playerTurn.textContent = `Player O has won!`;
+            playerTurn.textContent = `${playerTwo} has won!`;
             playerTurn.style.color = "#EA906C";
             game.winReset();
             removeClicks();
@@ -217,6 +220,14 @@ function ScreenController() {
             }
     }
 
+    const displayPlayer = function (playerOne, playerTwo) { 
+        const playerOneDisplay = document.getElementById("leftPlayer");
+        const playerTwoDisplay = document.getElementById("rightPlayer");
+
+        playerOneDisplay.textContent = `${playerOne}`;
+        playerTwoDisplay.textContent = `${playerTwo}`;
+    }
+
     const addColor = function () {
         for (let i = 0; i <= 8; i++) {
             const square = document.getElementById(`${i}`);
@@ -239,6 +250,7 @@ function ScreenController() {
         updateScreen();
     }
 
+    displayPlayer(playerOne, playerTwo);
     updateScreen();
 
 }

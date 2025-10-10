@@ -11,20 +11,23 @@
 </head>
 
 <body>
-    <div class="header">Tic Tac Toe</div>
     <div class="container">
         <div id="fullBoard">
-            <div id="activePlayer"></div>
+            <div id="gameHeader">
+                <div id="leftPlayerContainer">
+                    <div id="leftPlayerTitle">Player X</div>
+                    <div id="leftPlayer"></div>
+                    <div id="leftPlayerScore">Score: 0</div>
+                </div>
+                <div id="activePlayer"></div>
+                <div id="rightPlayerContainer">
+                    <div id="rightplayerTitle">Player O</div>
+                    <div id="rightPlayer"></div>
+                    <div id="rightPlayerScore">Score: 0</div>
+                </div>
+            </div>
             <div id="gameContent">
-                <div class="playerInfo">
-                    <div id="leftPlayer">Player X</div>
-                    <div id="leftPlayerScore">Score: 0</div>
-                </div>
                 <div id="gameBoard"></div>
-                <div class="playerInfo">
-                    <div id="rightPlayer">Player O</div>
-                    <div id="leftPlayerScore">Score: 0</div>
-                </div>
             </div>
             <button id="resetButton"></button>
         </div>

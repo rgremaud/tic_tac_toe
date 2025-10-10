@@ -30,9 +30,15 @@ body {
     gap: 1vh;
 }
 
-#activePlayer {
+#gameHeader {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
     font-size: 2rem;
     text-align: center;
+}
+
+#activePlayer {
+    margin: 0 2rem 0 2rem;
 }
 
 #gameContent {
@@ -41,9 +47,13 @@ body {
     justify-content: center;
 }
 
+#leftPlayerContainer {
+    color: #B31312;
+}
+
 #rightPlayer,
 #leftPlayer {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 #rightPlayerScore,
