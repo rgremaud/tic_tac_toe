@@ -8,7 +8,8 @@ body {
     color: #2B2A4C;
 }
 
-.header {
+.header,
+#title {
     font-size: 3rem;
     text-align: center;
 }
@@ -109,10 +110,21 @@ button:hover {
 
 #loadScreen {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.formBlock {
+    margin-top: 1vh;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #startButton {
-    width: 30%;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }

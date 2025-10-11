@@ -132,6 +132,7 @@ function GameInit(playerOne, playerTwo) {
 
 
 function ScreenController() {
+    /* 
     const playerOne = prompt("Please input player one name");
     const playerTwo = prompt("Please input player two name")
 
@@ -139,6 +140,7 @@ function ScreenController() {
     const players = game.getPlayerInfo();
     const playerTurn = document.querySelector("#activePlayer");
     const gameBoard = document.querySelector("#gameBoard");
+    */
 
     const updateScreen = function () {
         gameBoard.textContent = "";
@@ -265,8 +267,21 @@ function ScreenController() {
         updateScreen();
     }
 
+    const startButtonClickEvent = function () {
+        const startButton = document.getElementById("startButton");
+        const fullBoard = document.getElementById("fullBoard");
+        const loadScreen = document.getElementById("loadScreen");
+
+        startButton.addEventListener('click', () => {
+            loadScreen.style.display = 'none';
+            fullBoard.style.display = 'block';
+        })
+    }
+    /*
     displayPlayer(players);
     updateScreen();
+    */
+   startButtonClickEvent();
 
 }
 
