@@ -155,7 +155,7 @@ function ScreenController() {
         let winArray = game.winCheck();
         winConfirm(winArray, playerOne, playerTwo);
 
-        refreshScores();
+        refreshScores(players);
 
     }
 
