@@ -50,7 +50,6 @@ function GameInit(playerOne, playerTwo) {
     const getPlayerInfo = () => players;
 
     let activePlayer = players[0];
-    // let winCondition = false;
 
     let winArray = [false, ""]
 
@@ -79,12 +78,10 @@ function GameInit(playerOne, playerTwo) {
                 winArray[0] = true;
                 winArray[1] = "X";
                 players[0].score += 1;
-                console.log(`${players[0].name} has a score of ${players[0].score}`);
             } else if (allEqual(arrayToCheck) === true && (arrayToCheck[0] === "O")) {
                 winArray[0] = true;
                 winArray[1] = "O";
                 players[1].score += 1;
-                console.log(`${players[1].name} has a score of ${players[1].score}`);
             } else if (allItemsLengthOne(board.getBoard()) === true && winArray[0] === false) {
                 winArray[0] = "draw";
             }
@@ -94,7 +91,6 @@ function GameInit(playerOne, playerTwo) {
     };
 
     const winReset = function () {
-        // winCondition = false;
         winArray[0] = false;
         winArray[1] = "";
     }
@@ -111,7 +107,6 @@ function GameInit(playerOne, playerTwo) {
 
     const playRound = function (location) {
         board.playToken(location, getActivePlayer().token);
-        //winCheck();
         switchPlayer();
     };
 
@@ -131,17 +126,15 @@ function GameInit(playerOne, playerTwo) {
 }
 
 
-function ScreenController() {
-    /* 
-    const playerOne = prompt("Please input player one name");
-    const playerTwo = prompt("Please input player two name")
+function ScreenController(playerOne, playerTwo) {
 
     const game = GameInit(playerOne, playerTwo);
     const players = game.getPlayerInfo();
     const playerTurn = document.querySelector("#activePlayer");
     const gameBoard = document.querySelector("#gameBoard");
-    */
 
+    let isGameover = false;
+    
     const updateScreen = function () {
         gameBoard.textContent = "";
 
@@ -166,26 +159,18 @@ function ScreenController() {
             playerTurn.textContent = `${playerOne} has won!`;
             playerTurn.style.color = "#EA906C";
             game.winReset();
-            removeClicks();
+            isGameover = true;
         } else if (winArray[0] === true && winArray[1] === "O") {
             playerTurn.textContent = `${playerTwo} has won!`;
             playerTurn.style.color = "#EA906C";
             game.winReset();
-            removeClicks();
+            isGameover = true;
         } else if (winArray[0] === "draw") {
             playerTurn.textContent = `Its a draw!`;
             playerTurn.style.color = "#EA906C";
             game.winReset();
-            removeClicks();
+            isGameover = true;
         };
-    }
-
-    const removeClicks = function () {
-        for (let i = 0; i <= 8; i++) {
-            const square = document.getElementById(`${i}`);
-
-            square.removeEventListener('click', addBoardToken);
-        }
     }
 
     const printBoard = function (board) {
@@ -215,17 +200,19 @@ function ScreenController() {
         resetButton.textContent = "Reset";
 
         resetButton.addEventListener('click', () => {
+            isGameover = false;
             resetClickEvent();
         })
     }
 
     const addBoardToken = function (square) {
-        if (square.textContent === "") {
-            square.textContent = `${activePlayer.token}`;
-            boardLocation = parseInt(square.id);
-            game.playRound(boardLocation);
-            updateScreen();
-        } else {
+        if (!isGameover) {
+            if (square.textContent === "") {
+                square.textContent = `${activePlayer.token}`;
+                boardLocation = parseInt(square.id);
+                game.playRound(boardLocation);
+                updateScreen();
+            }
         }
     }
 
@@ -266,30 +253,31 @@ function ScreenController() {
         game.resetGame();
         updateScreen();
     }
+    
+    displayPlayer(players);
+    updateScreen();
+
+}
+
+function loadScreen () {
 
     const startButtonClickEvent = function () {
         const startButton = document.getElementById("startButton");
         const fullBoard = document.getElementById("fullBoard");
         const loadScreen = document.getElementById("loadScreen");
-
+        
         startButton.addEventListener('click', () => {
             loadScreen.style.display = 'none';
             fullBoard.style.display = 'block';
+
+            const playerOne = document.getElementById("playerOneInput").value
+            const playerTwo = document.getElementById("playerTwoInput").value
+            
+            ScreenController(playerOne, playerTwo);
         })
     }
-    /*
-    displayPlayer(players);
-    updateScreen();
-    */
-   startButtonClickEvent();
 
+    startButtonClickEvent();
 }
 
-ScreenController();
-
-/* 
-To do list:
-    Update player info on game init
-    Remove clicks when game is a draw/win
-    Score broken
-*/
+loadScreen();

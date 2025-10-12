@@ -94,7 +94,7 @@ button {
     font-size: 2rem;
     background-color: #EEE2DE;
     color: #2B2A4C;
-    width: 60%;
+    width: 300px;
 
     margin-top: 20px;
 
@@ -124,7 +124,6 @@ button:hover {
 }
 
 #startButton {
-    width: 50%;
     margin-left: auto;
     margin-right: auto;
 }
