@@ -157,17 +157,17 @@ function ScreenController(playerOne, playerTwo) {
     const winConfirm = function (winArray, playerOne, playerTwo) {
         if (winArray[0] === true && winArray[1] === "X") {
             playerTurn.textContent = `${playerOne} has won!`;
-            playerTurn.style.color = "#EA906C";
+            playerTurn.style.color = "#1C325B";
             game.winReset();
             isGameover = true;
         } else if (winArray[0] === true && winArray[1] === "O") {
             playerTurn.textContent = `${playerTwo} has won!`;
-            playerTurn.style.color = "#EA906C";
+            playerTurn.style.color = "#1C325B";
             game.winReset();
             isGameover = true;
         } else if (winArray[0] === "draw") {
             playerTurn.textContent = `Its a draw!`;
-            playerTurn.style.color = "#EA906C";
+            playerTurn.style.color = "#1C325B";
             game.winReset();
             isGameover = true;
         };
@@ -237,9 +237,9 @@ function ScreenController(playerOne, playerTwo) {
             const square = document.getElementById(`${i}`);
 
             if (square.textContent === "X") {
-                square.style.color = "#B31312";
+                square.style.color = "#9ABF80";
             } else {
-                square.style.color = "#2B2A4C";
+                square.style.color = "#6A669D";
             }
         };
     }

@@ -4,7 +4,7 @@ body {
     font-family: "Ubuntu", sans-serif;
     font-weight: 400;
     font-style: normal;
-    background-color: #EEE2DE;
+    background-color: #E5E3D4;
     color: #2B2A4C;
 }
 
@@ -37,7 +37,8 @@ body {
 
 #gameHeader {
     display: grid;
-    grid-template-columns: 25% 50% 25%;
+    /* grid-template-columns: 25% 50% 25%; */
+    grid-template-columns: 1fr 2fr 1fr;
     font-size: 2rem;
     text-align: center;
 }
@@ -54,7 +55,11 @@ body {
 }
 
 #leftPlayerContainer {
-    color: #B31312;
+    color: #9ABF80;
+}
+
+#rightPlayerContainer {
+    color: #6A669D;
 }
 
 #rightPlayer,
@@ -74,7 +79,7 @@ body {
 }
 
 .square {
-    background-color: #EEE2DE;
+    background-color: #E5E3D4;
     font-size: 6rem;
     text-align: center;
 }
@@ -92,7 +97,7 @@ body {
 button {
     border: .25rem solid;
     font-size: 2rem;
-    background-color: #EEE2DE;
+    background-color: #E5E3D4;
     color: #2B2A4C;
     width: 300px;
 
